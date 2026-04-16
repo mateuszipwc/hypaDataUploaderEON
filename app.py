@@ -8,15 +8,15 @@ from helpers import (
     ensure_token,
 )
 
-from pages.invoices import render_invoices_page
-from pages.lookup_tables import render_lookup_tables_page
-from pages.suppliers import render_suppliers_page 
-from pages.companies import render_companies_page
-from pages.delete_records import render_delete_records_page
+from pages_new.invoices import render_invoices_page
+from pages_new.lookup_tables import render_lookup_tables_page
+from pages_new.suppliers import render_suppliers_page 
+from pages_new.companies import render_companies_page
+from pages_new.delete_records import render_delete_records_page
 
 def main():
-    st.set_page_config(page_title="Hypatos Uploader", page_icon="🧾", layout="centered")
-    st.title("🧾 Hypatos Uploader")
+    st.set_page_config(page_title="EON - Hypatos Uploader", page_icon="🧾", layout="centered")
+    st.title("🧾 EON - Hypatos Uploader")
 
     # ---- Global API config (shared for all pages) ----
     with st.sidebar:
