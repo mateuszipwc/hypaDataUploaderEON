@@ -106,7 +106,7 @@ def load_table(uploaded_file: io.BytesIO) -> pd.DataFrame:
             return s[1:]
         return s
 
-    return df.applymap(_normalize)
+    return df.map(_normalize)
 
 
 

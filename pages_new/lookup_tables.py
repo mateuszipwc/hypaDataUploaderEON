@@ -27,7 +27,7 @@ def render_lookup_tables_page():
     # Type select with custom
     type_choice = st.selectbox(
         "Lookup table type (path param `{type}`)",
-        options=["tax_codes", "central_bank_indicator", "payment_terms", "custom"],
+        options=["tax_codes", "purchase_orders", "alternative_addresses"],
         index=0,
         help="Choose a predefined type or 'custom' to provide your own. Naming convention: table_name (i.e. bank_numbers)",
     )
@@ -66,7 +66,7 @@ def render_lookup_tables_page():
     # Load with leading-zero preservation
     df = load_table(uploaded)
     st.write("Preview (as strings, leading zeros preserved):")
-    st.dataframe(df.head(20), use_container_width=True)
+    st.dataframe(df.head(20), width="stretch")
 
     required = {"externalId", "key", "description"}
     if validate_cols:
@@ -127,4 +127,4 @@ def render_lookup_tables_page():
 
         st.success(f"Finished. OK: {ok_count}, Errors: {ko_count}")
         import pandas as pd
-        st.dataframe(pd.DataFrame(results), use_container_width=True)
+        st.dataframe(pd.DataFrame(results), width="stretch")

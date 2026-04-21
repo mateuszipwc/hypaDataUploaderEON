@@ -4,21 +4,17 @@ import streamlit as st
 from helpers import (
     DEFAULT_BASE_URL,
     AUTH_PATH,
-    INVOICES_INSERT_PATH,
     ensure_token,
 )
 
-from pages_new.invoices import render_invoices_page
 from pages_new.lookup_tables import render_lookup_tables_page
-from pages_new.suppliers import render_suppliers_page 
-from pages_new.companies import render_companies_page
-from pages_new.delete_records import render_delete_records_page
+
 
 def main():
     st.set_page_config(page_title="EON - Hypatos Uploader", page_icon="🧾", layout="centered")
     st.title("🧾 EON - Hypatos Uploader")
 
-    # ---- Global API config (shared for all pages) ----
+    # ---- Global API config (shared for the lookup page) ----
     with st.sidebar:
         st.header("Connection")
         base_url = st.text_input("Base URL", value=DEFAULT_BASE_URL)
@@ -26,18 +22,13 @@ def main():
         client_id = st.text_input("Client ID")
         client_secret = st.text_input("Client Secret", type="password")
 
-        # Persist config in session so pages can read it
-        st.session_state.setdefault("base_url", base_url)
-        st.session_state.setdefault("auth_path", auth_path)
-        st.session_state.setdefault("client_id", client_id)
-        st.session_state.setdefault("client_secret", client_secret)
-
+        # Persist config in session
         st.session_state["base_url"] = base_url
         st.session_state["auth_path"] = auth_path
         st.session_state["client_id"] = client_id
         st.session_state["client_secret"] = client_secret
 
-        # Small auth utility button (not mandatory; pages will auto-refresh token if needed)
+        # Optional token helper
         if st.button("🔑 Get/Refresh Token"):
             ok, msg = ensure_token(base_url, client_id, client_secret, auth_path)
             if ok:
@@ -45,33 +36,8 @@ def main():
             else:
                 st.error(msg)
 
-        st.divider()
-        page = st.radio(
-            "Select page",
-            options=[
-                "Upload Invoices",
-                "Lookup Tables",
-                "Ingest Suppliers",
-                "Ingest Companies",
-                "Delete Records"
-            ],
-            index=0,
-        )
-
-    # ---- Route to page ----
-    if page == "Upload Invoices":
-        # Pass the insert path for invoices; other pages build their own endpoint
-        render_invoices_page(insert_path=INVOICES_INSERT_PATH)
-    elif page == "Lookup Tables":
-        render_lookup_tables_page()
-    elif page == "Ingest Suppliers":
-        render_suppliers_page()
-    elif page == "Ingest Companies":
-        render_companies_page()
-    elif page == "Delete Records":
-        render_delete_records_page()
-    else:
-        st.info("Page not implemented yet.")
+    # ---- Only Lookup Tables page ----
+    render_lookup_tables_page()
 
 
 if __name__ == "__main__":
