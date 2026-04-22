@@ -25,11 +25,13 @@ def render_lookup_tables_page():
     client_secret = st.session_state.get("client_secret", "")
 
     # Type select with custom
-    type_choice = st.selectbox(
+    type_choice = st.radio(
         "Lookup table type (path param `{type}`)",
         options=["tax_codes", "purchase_orders", "alternative_addresses"],
         index=0,
         help="Choose a predefined type or 'custom' to provide your own. Naming convention: table_name (i.e. bank_numbers)",
+        horizontal=True, 
+
     )
 
     custom_type = ""
